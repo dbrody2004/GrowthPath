@@ -1,0 +1,16 @@
+{
+  "watch": [
+    "src",
+    "../../.env",
+    "../../packages/config/dist",
+    "../../packages/shared/dist",
+    "../../packages/data/dist",
+    "../../packages/scoring-engine/dist",
+    "../../packages/scan-engine/dist"
+  ],
+  "ext": "js,json,ts",
+  "ignore": ["**/*.test.ts", "**/*.test.tsx"],
+  "exec": "tsx src/index.ts",
+  "signal": "SIGTERM",
+  "delay": 300
+}

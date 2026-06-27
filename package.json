@@ -1,0 +1,49 @@
+{
+  "name": "growthpath",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run docker:up && npm run dev:apps",
+    "dev:apps": "npm run dev:packages:build && concurrently -n pkg,api,ui,worker -c gray,blue,green,yellow \"npm run dev:packages\" \"npm run dev --workspace=@growthpath/api\" \"npm run dev --workspace=@growthpath/ui\" \"npm run dev --workspace=@growthpath/worker\"",
+    "dev:packages:build": "npm run build --workspace=@growthpath/config && npm run build --workspace=@growthpath/shared && npm run build --workspace=@growthpath/data && npm run build --workspace=@growthpath/scoring-engine && npm run build --workspace=@growthpath/scan-engine",
+    "dev:packages": "concurrently -n config,shared,data,score,scan \"npm run dev --workspace=@growthpath/config\" \"npm run dev --workspace=@growthpath/shared\" \"npm run dev --workspace=@growthpath/data\" \"npm run dev --workspace=@growthpath/scoring-engine\" \"npm run dev --workspace=@growthpath/scan-engine\"",
+    "build": "npm run build --workspaces --if-present",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "docker:up": "docker compose -f docker-compose.local.yml up -d",
+    "docker:down": "docker compose -f docker-compose.local.yml down",
+    "docker:logs": "docker compose -f docker-compose.local.yml logs -f",
+    "build:prod": "./scripts/build-prod.sh",
+    "deploy:prod": "./scripts/deploy-prod.sh",
+    "generate:secrets": "node scripts/generate-env-secrets.mjs",
+    "seed": "npm run seed --workspace=@growthpath/api",
+    "seed:sample-scan": "npm run seed:sample-scan --workspace=@growthpath/api",
+    "compare:kitchen747": "npm run compare:kitchen747 --workspace=@growthpath/scan-engine"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.9",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^3.4.2",
+    "bcryptjs": "^2.4.3",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "@growthpath/scan-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "test": "vitest run",
+    "lint": "eslint src",
+    "compare:kitchen747": "tsx src/scripts/compare-kitchen747.ts",
+    "compare:kitchen747:snapshot": "tsx src/scripts/compare-kitchen747.ts --from-snapshot"
+  },
+  "dependencies": {
+    "@growthpath/config": "*",
+    "@growthpath/shared": "*",
+    "adm-zip": "^0.5.16",
+    "cheerio": "^1.0.0",
+    "date-fns": "^4.1.0",
+    "fast-xml-parser": "^4.5.1",
+    "p-limit": "^6.2.0",
+    "whoiser": "^1.18.0"
+  },
+  "devDependencies": {
+    "@growthpath/scoring-engine": "*",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
