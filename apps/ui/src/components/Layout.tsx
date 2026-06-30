@@ -13,12 +13,14 @@ function readSidebarCollapsed(): boolean {
   }
 }
 
-const navItems: { to: string; label: string; icon: IconName; end?: boolean }[] = [
+const baseNavItems: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: '/', label: 'Dashboard', icon: 'dashboard', end: true },
   { to: '/scans', label: 'Scans', icon: 'list_alt' },
   { to: '/jobs', label: 'Jobs', icon: 'work' },
   { to: '/settings', label: 'Settings', icon: 'settings' },
 ];
+
+const adminNavItem = { to: '/admin', label: 'Admin', icon: 'admin_panel_settings' as const };
 
 const pageTitles: Record<string, string> = {
   '/': 'Dashboard',
@@ -26,6 +28,7 @@ const pageTitles: Record<string, string> = {
   '/scans/new': 'New Scan Details',
   '/jobs': 'Jobs',
   '/settings': 'Settings',
+  '/admin': 'Admin',
 };
 
 function resolvePageTitle(pathname: string): string {
@@ -41,6 +44,9 @@ export function Layout() {
   const location = useLocation();
   const title = resolvePageTitle(location.pathname);
   const [collapsed, setCollapsed] = useState(readSidebarCollapsed);
+  const navItems = user?.role === 'admin'
+    ? [...baseNavItems, adminNavItem]
+    : baseNavItems;
 
   const toggleSidebar = () => {
     setCollapsed((prev) => {

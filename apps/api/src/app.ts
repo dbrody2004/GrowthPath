@@ -6,6 +6,7 @@ import type { Options } from 'pino-http';
 import type { ApiEnv } from '@growthpath/config';
 import type { Logger } from './lib/logger.js';
 import { createAuthRouter } from './routes/auth.js';
+import { createAdminRouter } from './routes/admin.js';
 import { createJobsRouter } from './routes/jobs.js';
 import { createScansRouter } from './routes/scans.js';
 
@@ -38,6 +39,7 @@ export function createApp(env: ApiEnv, log: Logger) {
   });
 
   app.use('/api/auth', createAuthRouter(env, log));
+  app.use('/api/admin', createAdminRouter(env, log));
   app.use('/api/jobs', createJobsRouter(env, log));
   app.use('/api/scans', createScansRouter(env, log));
 

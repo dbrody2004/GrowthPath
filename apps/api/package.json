@@ -10,6 +10,7 @@
     "test": "vitest run",
     "lint": "eslint src",
     "seed": "tsx src/scripts/seed.ts",
+    "seed:user": "tsx src/scripts/seed-user.ts",
     "seed:sample-scan": "tsx src/scripts/seed-sample-scan.ts"
   },
   "dependencies": {

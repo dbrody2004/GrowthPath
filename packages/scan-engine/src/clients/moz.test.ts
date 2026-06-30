@@ -2,17 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { resolveMozAuthHeaders } from './moz.js';
 
 describe('resolveMozAuthHeaders', () => {
-  it('uses Basic auth for base64-encoded legacy access_id:secret', () => {
+  it('uses x-moz-token for base64-encoded legacy access_id:secret', () => {
     const legacy = Buffer.from('mozscape-unrNEvcOVo:secret-key-here').toString('base64');
     expect(resolveMozAuthHeaders(legacy)).toEqual({
-      Authorization: `Basic ${legacy}`,
+      'x-moz-token': legacy,
     });
   });
 
-  it('uses Basic auth for raw access_id:secret', () => {
+  it('uses x-moz-token for raw access_id:secret', () => {
     const raw = 'mozscape-abc123:my-secret';
     expect(resolveMozAuthHeaders(raw)).toEqual({
-      Authorization: `Basic ${Buffer.from(raw).toString('base64')}`,
+      'x-moz-token': Buffer.from(raw).toString('base64'),
     });
   });
 

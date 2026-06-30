@@ -38,15 +38,17 @@ Open:
 | `npm run docker:up` | Start local MongoDB, RabbitMQ, MinIO |
 | `npm run generate:secrets` | Print generated production secrets |
 | `npm run seed` | Seed local admin user |
-| `npm run build:prod` | Build production Docker images |
-| `npm run deploy:prod` | Deploy production compose stack |
+| `npm run build:prod` | Build production app Docker images (api, worker, ui) |
+| `npm run deploy:prod` | Deploy production app compose stack |
+| `npm run build:marketing:prod` | Build production marketing Docker image |
+| `npm run deploy:marketing:prod` | Deploy marketing compose stack |
 
 ## Project values
 
 - `APP_NAME`: growthpath
 - `PACKAGE_SCOPE`: @growthpath
 - `DEFAULT_DOMAIN`: growthpath.example.com
-- `IMAGE_NAMESPACE`: growthpath
+- `IMAGE_NAMESPACE`: dbrody2004 (GitHub username/org for GHCR)
 
 ## Documentation
 

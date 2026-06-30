@@ -1,0 +1,71 @@
+.problem-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.problem-header .section-subtitle {
+  margin: 0 auto;
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.problem-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.problem-card:hover {
+  box-shadow: var(--shadow);
+  border-color: transparent;
+}
+
+.problem-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.problem-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.problem-icon--blue {
+  background: rgba(47, 107, 255, 0.1);
+  color: var(--blue);
+}
+
+.problem-icon--green {
+  background: rgba(33, 208, 122, 0.12);
+  color: var(--green-dark);
+}
+
+.problem-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.problem-card-text {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .problem-grid {
+    grid-template-columns: 1fr;
+  }
+}

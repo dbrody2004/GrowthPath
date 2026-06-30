@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${ROOT_DIR}"
 
 REGISTRY="${REGISTRY:-ghcr.io}"
@@ -12,6 +12,13 @@ PUSH="${PUSH:-false}"
 PUSH_LATEST="${PUSH_LATEST:-true}"
 PLATFORMS="${PLATFORMS:-linux/amd64,linux/arm64}"
 
+if [[ "${PUSH}" != "true" ]]; then
+  case "$(uname -m)" in
+    arm64 | aarch64) PLATFORMS="linux/arm64" ;;
+    *) PLATFORMS="linux/amd64" ;;
+  esac
+fi
+
 docker buildx create --use --name growthpath-builder 2>/dev/null || docker buildx use growthpath-builder
 
 build_image() {
@@ -20,21 +27,22 @@ build_image() {
   local context="${ROOT_DIR}"
   local image="${REGISTRY}/${IMAGE_NAMESPACE}/${IMAGE_PREFIX}-${name}"
   local tags=(--tag "${image}:${TAG}")
+  local output_flags=(--load)
   if [[ "${PUSH_LATEST}" == "true" ]]; then
     tags+=(--tag "${image}:latest")
+  fi
+  if [[ "${PUSH}" == "true" ]]; then
+    output_flags=(--push)
   fi
 
   docker buildx build \
     --platform "${PLATFORMS}" \
     "${tags[@]}" \
     --file "${dockerfile}" \
-    ${PUSH:+--push} \
-    ${PUSH:---load} \
+    "${output_flags[@]}" \
     "${context}"
 }
 
-build_image api apps/api/Dockerfile
-build_image worker apps/worker/Dockerfile
-build_image ui apps/ui/Dockerfile
+build_image marketing apps/marketing/Dockerfile
 
-echo "Built images with tag ${TAG}"
+echo "Built marketing image with tag ${TAG}"

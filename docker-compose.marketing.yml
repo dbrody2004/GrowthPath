@@ -1,0 +1,22 @@
+services:
+  marketing:
+    image: ${IMAGE_REGISTRY:-ghcr.io}/${IMAGE_NAMESPACE:-growthpath}/${IMAGE_PREFIX:-growthpath}-marketing:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: apps/marketing/Dockerfile
+    container_name: growthpath-marketing
+    restart: unless-stopped
+    environment:
+      MARKETING_DOMAIN: ${MARKETING_DOMAIN:-localseo.davebrody.tech}
+      CERTBOT_EMAIL: ${MARKETING_CERTBOT_EMAIL:-${CERTBOT_EMAIL:-admin@example.com}}
+      ENABLE_CERTBOT: ${ENABLE_CERTBOT:-true}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./data/letsencrypt:/etc/letsencrypt
+      - ./data/certbot-www:/var/www/certbot
+    deploy:
+      resources:
+        limits:
+          memory: 256M

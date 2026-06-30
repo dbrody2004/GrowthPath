@@ -5,18 +5,15 @@ WORKDIR /app
 
 COPY package.json package-lock.json* ./
 COPY apps/ui/package.json ./apps/ui/
-COPY packages/config/package.json ./packages/config/
 COPY packages/shared/package.json ./packages/shared/
 
 RUN npm ci --workspace=@growthpath/ui --include-workspace-root
 
 COPY tsconfig.base.json ./
 COPY apps/ui ./apps/ui
-COPY packages/config ./packages/config
 COPY packages/shared ./packages/shared
 
-RUN npm run build --workspace=@growthpath/config && \
-    npm run build --workspace=@growthpath/shared && \
+RUN npm run build --workspace=@growthpath/shared && \
     npm run build --workspace=@growthpath/ui
 
 FROM nginx:1.27-alpine

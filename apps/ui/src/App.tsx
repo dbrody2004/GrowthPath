@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { RequireAuth } from './components/RequireAuth';
+import { RequireAdmin } from './components/RequireAdmin';
+import { AdminScansPage } from './pages/AdminScansPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { JobsPage } from './pages/JobsPage';
 import { LoginPage } from './pages/LoginPage';
@@ -23,6 +25,9 @@ export default function App() {
           <Route path="scans/:id" element={<ScanReportPage />} />
           <Route path="jobs" element={<JobsPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route element={<RequireAdmin />}>
+            <Route path="admin" element={<AdminScansPage />} />
+          </Route>
         </Route>
         <Route path="scans/:id/print" element={<ScanPrintPage />} />
       </Route>

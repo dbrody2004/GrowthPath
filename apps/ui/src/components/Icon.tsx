@@ -12,7 +12,8 @@ export type IconName =
   | 'chevron_right'
   | 'insights'
   | 'print'
-  | 'arrow_back';
+  | 'arrow_back'
+  | 'admin_panel_settings';
 
 type IconProps = {
   name: IconName;

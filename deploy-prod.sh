@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${ROOT_DIR}"
 
 if [[ ! -f .env ]]; then
@@ -21,9 +21,11 @@ fi
 
 node scripts/rewrite-prod-uris.mjs --input .env --output .env.prod.override
 
+set +u
 set -a
 source .env
 set +a
+set -u
 
 REGISTRY="${REGISTRY:-ghcr.io}"
 IMAGE_NAMESPACE="${IMAGE_NAMESPACE:-growthpath}"

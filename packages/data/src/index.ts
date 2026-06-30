@@ -24,5 +24,7 @@ export {
   getScanResult,
   getScanWithBusiness,
   listScans,
+  listAllScans,
   type ScanListItem,
+  type AdminScanListItem,
 } from './repositories/index.js';

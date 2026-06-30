@@ -154,7 +154,8 @@ export function createScansRouter(env: ApiEnv, log: Logger) {
         Number.isFinite(requestedLimit) && requestedLimit > 0
           ? Math.min(requestedLimit, 100)
           : 50;
-      const scans = await listScans(limit, scanAccessScope(req));
+      const user = (req as AuthenticatedRequest).currentUser!;
+      const scans = await listScans(limit, { userId: user._id.toString(), allowAll: false });
       res.json({ scans });
     } catch (error) {
       log.error({ error }, 'Failed to list scans');

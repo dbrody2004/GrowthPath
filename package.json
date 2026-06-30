@@ -21,12 +21,18 @@
     "docker:up": "docker compose -f docker-compose.local.yml up -d",
     "docker:down": "docker compose -f docker-compose.local.yml down",
     "docker:logs": "docker compose -f docker-compose.local.yml logs -f",
-    "build:prod": "./scripts/build-prod.sh",
-    "deploy:prod": "./scripts/deploy-prod.sh",
+    "build:prod": "./build-prod.sh",
+    "deploy:prod": "./deploy-prod.sh",
     "generate:secrets": "node scripts/generate-env-secrets.mjs",
     "seed": "npm run seed --workspace=@growthpath/api",
     "seed:sample-scan": "npm run seed:sample-scan --workspace=@growthpath/api",
-    "compare:kitchen747": "npm run compare:kitchen747 --workspace=@growthpath/scan-engine"
+    "compare:kitchen747": "npm run compare:kitchen747 --workspace=@growthpath/scan-engine",
+    "dev:marketing": "npm run dev --workspace=@growthpath/marketing",
+    "build:marketing": "npm run build --workspace=@growthpath/marketing",
+    "build:marketing:prod": "./build-marketing.sh",
+    "deploy:marketing:prod": "./deploy-marketing.sh",
+    "marketing:up": "docker compose -f docker-compose.marketing.yml up -d --build",
+    "marketing:down": "docker compose -f docker-compose.marketing.yml down"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

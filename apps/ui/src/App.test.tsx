@@ -62,6 +62,7 @@ describe('App auth gating', () => {
     expect(screen.getByText('Scans')).toBeInTheDocument();
     expect(screen.getByText('Jobs')).toBeInTheDocument();
     expect(screen.getByText('Settings')).toBeInTheDocument();
+    expect(screen.getByText('Admin')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: 'Dashboard' })).toBeInTheDocument();
     expect(screen.getByText('admin@example.com')).toBeInTheDocument();
   });

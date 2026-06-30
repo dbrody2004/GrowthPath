@@ -11,11 +11,12 @@ export function resolveMozAuthHeaders(apiKey: string): Record<string, string> {
   const trimmed = apiKey.trim();
   if (!trimmed) return {};
 
-  // Legacy: MOZ_API_KEY is already base64(access_id:secret) from moz.com/api/dashboard.
+  // Legacy: MOZ_API_KEY is base64(access_id:secret) from moz.com/api/dashboard.
+  // Moz JSON-RPC expects the blob as x-moz-token, not Basic auth.
   try {
     const decoded = Buffer.from(trimmed, 'base64').toString('utf8');
     if (/^[^\s:]+:[^\s]+$/.test(decoded)) {
-      return { Authorization: `Basic ${trimmed}` };
+      return { 'x-moz-token': trimmed };
     }
   } catch {
     // not base64 — fall through
@@ -23,7 +24,7 @@ export function resolveMozAuthHeaders(apiKey: string): Record<string, string> {
 
   // Legacy: raw access_id:secret pasted without encoding.
   if (/^[^\s:]+:[^\s]+$/.test(trimmed)) {
-    return { Authorization: `Basic ${Buffer.from(trimmed).toString('base64')}` };
+    return { 'x-moz-token': Buffer.from(trimmed).toString('base64') };
   }
 
   // Modern Moz API dashboard token.

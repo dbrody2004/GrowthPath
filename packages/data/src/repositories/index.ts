@@ -236,3 +236,42 @@ export async function listScans(
     };
   });
 }
+
+export interface AdminScanListItem extends ScanListItem {
+  userId: string | null;
+}
+
+export async function listAllScans(limit = 100): Promise<AdminScanListItem[]> {
+  const scans = await Scan.find({})
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .populate<{ businessId: BusinessDocument }>('businessId')
+    .exec();
+
+  if (scans.length === 0) {
+    return [];
+  }
+
+  const scanIds = scans.map((scan) => scan._id);
+  const results = await ScanResult.find({ scanId: { $in: scanIds } })
+    .select('scanId p1 p2')
+    .lean();
+
+  const resultByScanId = new Map(
+    results.map((result) => [result.scanId.toString(), { p1: result.p1, p2: result.p2 }]),
+  );
+
+  return scans.map((scan) => {
+    const scores = resultByScanId.get(scan._id.toString());
+    const business = scan.businessId as BusinessDocument;
+    return {
+      id: scan._id.toString(),
+      bizName: business?.bizName ?? 'Unknown',
+      status: scan.status,
+      p1: scores?.p1 ?? null,
+      p2: scores?.p2 ?? null,
+      createdAt: scan.createdAt,
+      userId: scan.userId?.toString() ?? null,
+    };
+  });
+}

@@ -27,6 +27,10 @@ export interface ScanListEntry {
   createdAt: string;
 }
 
+export interface AdminScanEntry extends ScanListEntry {
+  ownerEmail: string | null;
+}
+
 export interface CreateScanResponse {
   scanId: string;
   businessId: string;
@@ -70,6 +74,11 @@ export async function getScanResult(id: string): Promise<ScanResultResponse> {
 
 export async function listScans(limit = 50): Promise<ScanListEntry[]> {
   const response = await apiFetch<{ scans: ScanListEntry[] }>(`/api/scans?limit=${limit}`);
+  return response.scans;
+}
+
+export async function listAllScansAdmin(limit = 100): Promise<AdminScanEntry[]> {
+  const response = await apiFetch<{ scans: AdminScanEntry[] }>(`/api/admin/scans?limit=${limit}`);
   return response.scans;
 }
 
